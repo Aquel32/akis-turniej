@@ -1,21 +1,69 @@
 <script lang="ts">
-	import PlayerEditor from '../../components/PlayerEditor.svelte';
-	import type { PageProps } from './$types';
+	import type { User } from '$lib/types.js';
+	import Modal from '../../components/Modal.svelte';
+    import PlayerEditor from '../../components/PlayerEditor.svelte';
+    import type { PageProps } from './$types';
      import { Trash, Pencil,CirclePlus } from '@lucide/svelte';
 
-	let { data } = $props();
-
-    let players = $state([...data.players]);
+    let { data } = $props();
+    let players = $derived(data.players);
 
     let editor = $state({
         enabled:false
     })
+    let deleteModal = $state({
+        enabled:false
+    })
 
-    function addPlayer(name:string,country:string,age:number,registrationDate:string)
+    let selectedPlayer = $state(undefined as User|undefined);
+
+    async function addPlayer(name:string,country:string,age:number,registrationDate:string)
     {
-        console.log(name,country,age,registrationDate);
-        players.push({name,age,country,registrationDate});
         editor.enabled = false;
+        console.log(name,country,age,registrationDate);
+
+        if(selectedPlayer != undefined)
+        {
+            const response = await fetch('/api/editUser', {
+                method: 'POST',
+                body: JSON.stringify({ id:selectedPlayer.id, name, country, age, registrationDate }),
+                headers: {
+                    'content-type': 'application/json'
+                }
+		    });
+            selectedPlayer = undefined;
+            return;
+        }
+
+        const response = await fetch('/api/addUser', {
+			method: 'POST',
+			body: JSON.stringify({ name, country, age, registrationDate }),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+    }
+
+    function deletePlayer()
+    {
+        deleteModal.enabled = false;
+        if(selectedPlayer != undefined)
+        {
+            fetch('/api/deleteUser', {
+                method: 'POST',
+                body: JSON.stringify({ id:selectedPlayer.id }),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            });
+            selectedPlayer = undefined;
+        }
+    }
+
+    function closeEditor()
+    {
+        editor.enabled = false;
+        selectedPlayer = undefined;
     }
 </script>
 
@@ -30,8 +78,8 @@
                 <div class="flex justify-between bg-red-200 p-5">
                     <h1 class="">{player.name}</h1>
                     <div class="flex gap-5">
-                        <button><Trash/></button>
-                        <button><Pencil /></button>
+                        <button onclick={()=>{deleteModal.enabled = true; selectedPlayer = player}}><Trash/></button>
+                        <button onclick={()=>{editor.enabled = true; selectedPlayer = player}}><Pencil /></button>
                     </div>
                 </div>
                 <div class="flex">
@@ -53,4 +101,5 @@
     </ul>    
 </main>
 
-<PlayerEditor enabled={editor.enabled} close={()=>editor.enabled = false} submit={addPlayer}/>
+<PlayerEditor enabled={editor.enabled} close={closeEditor} submit={addPlayer} player={selectedPlayer}/>
+<Modal enabled={deleteModal.enabled} title="Delete player" description="Are you sure you want to delete this player?" submit={deletePlayer} cancel={() => { deleteModal.enabled = false; selectedPlayer = undefined; }}/>

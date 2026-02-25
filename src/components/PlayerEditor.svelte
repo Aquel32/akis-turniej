@@ -1,11 +1,17 @@
 <script>
     import {X} from '@lucide/svelte'
 
-    let { enabled,close,submit } = $props();
+    let { enabled,close,submit,player=undefined } = $props();
 
     let playerName = $state("");
     let country = $state("");
-    let age = $state(0);
+    let age = $state(18);
+
+    $effect(() => {
+        playerName = player?.name ?? "";
+        country = player?.country ?? "";
+        age = player?.age ?? 18;
+    });
 
     function end()
     {
