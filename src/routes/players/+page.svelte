@@ -2,7 +2,6 @@
 	import type { User } from '$lib/types.js';
 	import Modal from '../../components/Modal.svelte';
     import PlayerEditor from '../../components/PlayerEditor.svelte';
-    import type { PageProps } from './$types';
      import { Trash, Pencil,CirclePlus } from '@lucide/svelte';
 
     let { data } = $props();
@@ -72,7 +71,7 @@
         <h1>List of registered players</h1>
         <button onclick={()=>editor.enabled = true}><CirclePlus /></button>
     </div>
-    <ul>
+    <ul class="overflow-auto max-h-[80vh] gap-5 flex flex-col">
         {#each players as player}
 			<li class="">
                 <div class="flex justify-between bg-red-200 p-5">
