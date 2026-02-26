@@ -1,0 +1,66 @@
+{
+    "participant": [
+        {
+            "id": 0,
+            "tournament_id": 1,
+            "name": "niet"
+        },
+        {
+            "id": 1,
+            "tournament_id": 1,
+            "name": "hahaha"
+        }
+    ],
+    "stage": [
+        {
+            "id": 0,
+            "tournament_id": 1,
+            "name": "b",
+            "type": "single_elimination",
+            "number": 1,
+            "settings": {
+                "consolationFinal": false,
+                "matchesChildCount": 0,
+                "size": 2,
+                "seedOrdering": [
+                    "inner_outer"
+                ]
+            }
+        }
+    ],
+    "group": [
+        {
+            "id": 0,
+            "stage_id": 0,
+            "number": 1
+        }
+    ],
+    "round": [
+        {
+            "id": 0,
+            "number": 1,
+            "stage_id": 0,
+            "group_id": 0
+        }
+    ],
+    "match": [
+        {
+            "id": 0,
+            "number": 1,
+            "stage_id": 0,
+            "group_id": 0,
+            "round_id": 0,
+            "child_count": 0,
+            "status": 2,
+            "opponent1": {
+                "id": 0,
+                "position": 1
+            },
+            "opponent2": {
+                "id": 1,
+                "position": 2
+            }
+        }
+    ],
+    "match_game": []
+}

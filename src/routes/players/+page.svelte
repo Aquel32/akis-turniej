@@ -25,7 +25,7 @@
         {
             const response = await fetch('/api/editUser', {
                 method: 'POST',
-                body: JSON.stringify({ id:selectedPlayer.id, name, country, age, registrationDate }),
+                body: JSON.stringify({ id:selectedPlayer.id, name, country, age, registrationDate:selectedPlayer.registrationDate }),
                 headers: {
                     'content-type': 'application/json'
                 }
@@ -41,6 +41,7 @@
 				'content-type': 'application/json'
 			}
 		});
+        selectedPlayer = undefined;
     }
 
     function deletePlayer()

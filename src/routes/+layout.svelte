@@ -8,7 +8,7 @@
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
 <header class="flex justify-between p-10">
-	<h1>Tournament</h1>
+	<h1>Tournaments Manager</h1>
 	<nav>
 		<a href="/">HOME</a>
 		<a href="/players">PLAYERS</a>

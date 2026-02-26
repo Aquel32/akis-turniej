@@ -29,6 +29,7 @@
 	},
 	"dependencies": {
 		"@lucide/svelte": "^0.575.0",
+		"brackets-json-db": "^1.0.2",
 		"brackets-manager": "^1.8.2",
 		"brackets-memory-db": "^1.0.5",
 		"brackets-viewer": "^1.9.0",
