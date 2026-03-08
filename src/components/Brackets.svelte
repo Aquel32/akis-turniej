@@ -5,6 +5,7 @@
     let { tournamentData } = $props();
 
     $effect(() => {
+        console.log(tournamentData)
         if (typeof window !== 'undefined' && tournamentData) {
             loadAndRender();
         }

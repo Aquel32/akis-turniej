@@ -39,7 +39,7 @@
 
     function playTournament(tournament:any)
     {
-        console.log("playing")
+        window.location.replace(`/tournament/${tournament.id}`)
     }
 
     function deleteTournament()

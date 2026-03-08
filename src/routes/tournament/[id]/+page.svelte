@@ -3,8 +3,7 @@
 let { data } = $props();
 </script>
 
-<main>
-    <h1>Tournament View</h1>
+<main class="flex flex-col items-center justify-center gap-4">
     {#if data.tournamentData}
         <Brackets tournamentData={data.tournamentData} />
     {/if}

@@ -29,5 +29,24 @@
       "id": 5
     }
   ],
-  "tournaments": []
+  "tournaments": [
+    {
+      "id": 2,
+      "name": "nm",
+      "participants": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 3,
+      "name": "awdaszc",
+      "participants": [
+        4,
+        3,
+        2,
+        5
+      ]
+    }
+  ]
 }
