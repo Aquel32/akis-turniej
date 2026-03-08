@@ -13,7 +13,7 @@ export const POST: RequestHandler = async ({ request }) => {
         name: tournamentData.name,
         tournamentId: tournamentId,
         type: 'single_elimination',
-        seeding: tournamentData.seeding.map(user => user.name)
+        seeding: tournamentData.seeding.map(user => user.name),
     });
     
 

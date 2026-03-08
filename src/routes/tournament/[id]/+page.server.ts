@@ -5,8 +5,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ params }) => {
     // params.id - tournament id
 
-    const stage = await manager.get.currentStage(Number(params.id));
-    const tournamentData = await manager.get.stageData(stage!.id);
-
+    const tournamentData = await manager.get.tournamentData(Number(params.id));
+    
     return { tournamentData };
 };

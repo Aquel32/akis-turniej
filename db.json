@@ -31,21 +31,13 @@
   ],
   "tournaments": [
     {
-      "id": 2,
-      "name": "nm",
+      "id": 1,
+      "name": "1432",
       "participants": [
         2,
-        3
-      ]
-    },
-    {
-      "id": 3,
-      "name": "awdaszc",
-      "participants": [
-        4,
         3,
-        2,
-        5
+        5,
+        4
       ]
     }
   ]

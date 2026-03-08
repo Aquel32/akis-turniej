@@ -49,28 +49,23 @@
             "id": 9,
             "tournament_id": 3,
             "name": "fgdfgdgfdgd"
+        },
+        {
+            "id": 10,
+            "tournament_id": 2,
+            "name": "respect"
+        },
+        {
+            "id": 11,
+            "tournament_id": 2,
+            "name": "fgdfgdgfdgd"
         }
     ],
     "stage": [
         {
-            "id": 1,
-            "tournament_id": 2,
-            "name": "nm",
-            "type": "single_elimination",
-            "number": 1,
-            "settings": {
-                "consolationFinal": false,
-                "matchesChildCount": 0,
-                "size": 2,
-                "seedOrdering": [
-                    "inner_outer"
-                ]
-            }
-        },
-        {
-            "id": 2,
-            "tournament_id": 3,
-            "name": "awdaszc",
+            "id": 0,
+            "tournament_id": 1,
+            "name": "1432",
             "type": "single_elimination",
             "number": 1,
             "settings": {
@@ -85,101 +80,85 @@
     ],
     "group": [
         {
-            "id": 1,
-            "stage_id": 1,
-            "number": 1
-        },
-        {
-            "id": 2,
-            "stage_id": 2,
+            "id": 0,
+            "stage_id": 0,
             "number": 1
         }
     ],
     "round": [
         {
-            "id": 2,
+            "id": 0,
             "number": 1,
-            "stage_id": 1,
-            "group_id": 1
+            "stage_id": 0,
+            "group_id": 0
         },
         {
-            "id": 3,
-            "number": 1,
-            "stage_id": 2,
-            "group_id": 2
-        },
-        {
-            "id": 4,
+            "id": 1,
             "number": 2,
-            "stage_id": 2,
-            "group_id": 2
+            "stage_id": 0,
+            "group_id": 0
         }
     ],
     "match": [
         {
-            "id": 3,
+            "id": 0,
             "number": 1,
-            "stage_id": 1,
-            "group_id": 1,
-            "round_id": 2,
+            "stage_id": 0,
+            "group_id": 0,
+            "round_id": 0,
             "child_count": 0,
-            "status": 2,
+            "status": 5,
             "opponent1": {
-                "id": 4,
-                "position": 1
+                "id": 0,
+                "position": 1,
+                "score": 1,
+                "result": "loss"
             },
             "opponent2": {
-                "id": 5,
-                "position": 2
+                "id": 2,
+                "position": 4,
+                "score": 2,
+                "result": "win"
             }
         },
         {
-            "id": 4,
-            "number": 1,
-            "stage_id": 2,
-            "group_id": 2,
-            "round_id": 3,
-            "child_count": 0,
-            "status": 2,
-            "opponent1": {
-                "id": 6,
-                "position": 1
-            },
-            "opponent2": {
-                "id": 9,
-                "position": 4
-            }
-        },
-        {
-            "id": 5,
+            "id": 1,
             "number": 2,
-            "stage_id": 2,
-            "group_id": 2,
-            "round_id": 3,
+            "stage_id": 0,
+            "group_id": 0,
+            "round_id": 0,
             "child_count": 0,
-            "status": 2,
+            "status": 5,
             "opponent1": {
-                "id": 7,
-                "position": 2
+                "id": 1,
+                "position": 2,
+                "score": 5,
+                "result": "loss"
             },
             "opponent2": {
-                "id": 8,
-                "position": 3
+                "id": 3,
+                "position": 3,
+                "score": 6,
+                "result": "win"
             }
         },
         {
-            "id": 6,
+            "id": 2,
             "number": 1,
-            "stage_id": 2,
-            "group_id": 2,
-            "round_id": 4,
+            "stage_id": 0,
+            "group_id": 0,
+            "round_id": 1,
             "child_count": 0,
-            "status": 0,
+            "status": 5,
             "opponent1": {
-                "id": null
+                "id": 2,
+                "score": 1,
+                "result": "loss"
             },
             "opponent2": {
-                "id": null
+                "id": 3,
+                "score": 2,
+                "result": "win"
             }
         }
     ],
