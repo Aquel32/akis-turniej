@@ -1,6 +1,7 @@
 <script lang="ts">
     import 'brackets-viewer/dist/brackets-viewer.min.css';
     import type { MatchWithMetadata } from 'brackets-viewer';
+	import MatchEditor from './MatchEditor.svelte';
 
     let { tournamentData } = $props();
     let selectedMatch= $state<MatchWithMetadata | null>(null)
@@ -32,14 +33,8 @@
         });
     }
 
-    function submit()
+    function submit(op1Score:number, op2Score:number)
     {
-        
-
-        console.log(tournamentData)
-        const op1Score = parseInt((document.querySelector('input#opponent1-score') as HTMLInputElement).value);
-        const op2Score = parseInt((document.querySelector('input#opponent2-score') as HTMLInputElement).value);
-
         fetch("/api/updateTournament",{
             method:"POST",
             headers: {
@@ -59,20 +54,4 @@
 
 <div class="brackets-viewer"></div>
 
-{#if selectedMatch}
-    <div class="match-details">
-        <h2>Match Details</h2>
-        <br>
-        <br>
-        <p><strong>Opponent 1:</strong> {tournamentData.participant.find((p:any) => p.id === selectedMatch!.opponent1!.id)?.name}</p>
-        <input type="text" placeholder="Score for Opponent 1" id="opponent1-score" />
-        <br>
-        <p><strong>Opponent 2:</strong> {tournamentData.participant.find((p:any) => p.id === selectedMatch!.opponent2!.id)?.name}</p>
-        <input type="text" placeholder="Score for Opponent 2" id="opponent2-score" />
-        <br>
-        <br>
-        <p><strong>Status:</strong> {selectedMatch!.status}</p>
-        <button onclick={submit}>Submit Score</button>
-        <button onclick={() => selectedMatch = null}>Close</button>
-    </div>
-{/if}
+<MatchEditor enabled={selectedMatch !== null} close={() => selectedMatch = null} submit={submit} p1Name={tournamentData.participant.find((p:any) => p.id === selectedMatch?.opponent1!.id)?.name} p2Name={tournamentData.participant.find((p:any) => p.id === selectedMatch?.opponent2!.id)?.name} />

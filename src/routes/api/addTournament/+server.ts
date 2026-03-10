@@ -4,6 +4,14 @@ import db from '$lib/db';
 import type { User } from '$lib/types';
 import { manager } from '$lib/brackets';
 
+function getBracketSize(n: number): number {
+    if (n <= 1) return 1;
+    
+    const exponent = Math.ceil(Math.log2(n));
+    
+    return Math.pow(2, exponent);
+}
+
 export const POST: RequestHandler = async ({ request }) => {
     
     const tournamentData:{seeding: User[], name:string} = await request.json();
@@ -14,6 +22,9 @@ export const POST: RequestHandler = async ({ request }) => {
         tournamentId: tournamentId,
         type: 'single_elimination',
         seeding: tournamentData.seeding.map(user => user.name),
+        settings:{
+            size:getBracketSize(tournamentData.seeding.length),
+        } 
     });
     
 
