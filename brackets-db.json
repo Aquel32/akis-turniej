@@ -134,176 +134,91 @@
             "id": 26,
             "tournament_id": 1,
             "name": "dadada"
-        }
-    ],
-    "stage": [
+        },
         {
-            "id": 0,
+            "id": 27,
+            "tournament_id": 2,
+            "name": "dadada"
+        },
+        {
+            "id": 28,
             "tournament_id": 1,
-            "name": "we",
-            "type": "single_elimination",
-            "number": 1,
-            "settings": {
-                "size": 8,
-                "consolationFinal": false,
-                "matchesChildCount": 0,
-                "seedOrdering": [
-                    "inner_outer"
-                ]
-            }
+            "name": "D"
+        },
+        {
+            "id": 29,
+            "tournament_id": 1,
+            "name": "C"
+        },
+        {
+            "id": 30,
+            "tournament_id": 1,
+            "name": "B"
+        },
+        {
+            "id": 31,
+            "tournament_id": 1,
+            "name": "A"
+        },
+        {
+            "id": 32,
+            "tournament_id": 1,
+            "name": "E"
+        },
+        {
+            "id": 33,
+            "tournament_id": 2,
+            "name": "A"
+        },
+        {
+            "id": 34,
+            "tournament_id": 2,
+            "name": "B"
+        },
+        {
+            "id": 35,
+            "tournament_id": 2,
+            "name": "C"
+        },
+        {
+            "id": 36,
+            "tournament_id": 2,
+            "name": "D"
+        },
+        {
+            "id": 37,
+            "tournament_id": 3,
+            "name": "D"
+        },
+        {
+            "id": 38,
+            "tournament_id": 3,
+            "name": "B"
+        },
+        {
+            "id": 39,
+            "tournament_id": 3,
+            "name": "A"
+        },
+        {
+            "id": 40,
+            "tournament_id": 3,
+            "name": "C"
+        },
+        {
+            "id": 41,
+            "tournament_id": 2,
+            "name": "E"
+        },
+        {
+            "id": 42,
+            "tournament_id": 3,
+            "name": "E"
         }
     ],
-    "group": [
-        {
-            "id": 0,
-            "stage_id": 0,
-            "number": 1
-        }
-    ],
-    "round": [
-        {
-            "id": 0,
-            "number": 1,
-            "stage_id": 0,
-            "group_id": 0
-        },
-        {
-            "id": 1,
-            "number": 2,
-            "stage_id": 0,
-            "group_id": 0
-        },
-        {
-            "id": 2,
-            "number": 3,
-            "stage_id": 0,
-            "group_id": 0
-        }
-    ],
-    "match": [
-        {
-            "id": 0,
-            "number": 1,
-            "stage_id": 0,
-            "group_id": 0,
-            "round_id": 0,
-            "child_count": 0,
-            "status": 5,
-            "opponent1": {
-                "id": 0,
-                "position": 1,
-                "result": "win"
-            },
-            "opponent2": null
-        },
-        {
-            "id": 1,
-            "number": 2,
-            "stage_id": 0,
-            "group_id": 0,
-            "round_id": 0,
-            "child_count": 0,
-            "status": 5,
-            "opponent1": {
-                "id": 3,
-                "position": 4,
-                "score": 6,
-                "result": "loss"
-            },
-            "opponent2": {
-                "id": 26,
-                "position": 5,
-                "score": 7,
-                "result": "win"
-            }
-        },
-        {
-            "id": 2,
-            "number": 3,
-            "stage_id": 0,
-            "group_id": 0,
-            "round_id": 0,
-            "child_count": 0,
-            "status": 5,
-            "opponent1": {
-                "id": 1,
-                "position": 2,
-                "result": "win"
-            },
-            "opponent2": null
-        },
-        {
-            "id": 3,
-            "number": 4,
-            "stage_id": 0,
-            "group_id": 0,
-            "round_id": 0,
-            "child_count": 0,
-            "status": 5,
-            "opponent1": {
-                "id": 2,
-                "position": 3,
-                "result": "win"
-            },
-            "opponent2": null
-        },
-        {
-            "id": 4,
-            "number": 1,
-            "stage_id": 0,
-            "group_id": 0,
-            "round_id": 1,
-            "child_count": 0,
-            "status": 5,
-            "opponent1": {
-                "id": 0,
-                "score": 2,
-                "result": "loss"
-            },
-            "opponent2": {
-                "id": 26,
-                "score": 3,
-                "result": "win"
-            }
-        },
-        {
-            "id": 5,
-            "number": 2,
-            "stage_id": 0,
-            "group_id": 0,
-            "round_id": 1,
-            "child_count": 0,
-            "status": 5,
-            "opponent1": {
-                "id": 1,
-                "score": 5,
-                "result": "loss"
-            },
-            "opponent2": {
-                "id": 2,
-                "score": 6,
-                "result": "win"
-            }
-        },
-        {
-            "id": 6,
-            "number": 1,
-            "stage_id": 0,
-            "group_id": 0,
-            "round_id": 2,
-            "child_count": 0,
-            "status": 5,
-            "opponent1": {
-                "id": 26,
-                "score": 9,
-                "result": "win"
-            },
-            "opponent2": {
-                "id": 2,
-                "score": 8,
-                "result": "loss"
-            }
-        }
-    ],
+    "stage": [],
+    "group": [],
+    "round": [],
+    "match": [],
     "match_game": []
 }

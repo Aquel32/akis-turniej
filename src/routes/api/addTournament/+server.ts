@@ -12,18 +12,37 @@ function getBracketSize(n: number): number {
     return Math.pow(2, exponent);
 }
 
-export const POST: RequestHandler = async ({ request }) => {
-    
-    const tournamentData:{seeding: User[], name:string} = await request.json();
+function sortPlayers(criteria: 'name' | 'age' | 'rating', players: User[]): User[] {
+    const result = [...players].sort((a:User, b:User) => {
+        if (criteria === 'name') {
+            return a.name.localeCompare(b.name);
+        } else if (criteria === 'age') {
+            return a.age - b.age;
+        } else if (criteria === 'rating') {
+            return b.rating - a.rating;
+        }
+        return 0;
+    });
+    return result;
+}
 
+export const POST: RequestHandler = async ({ request }) => {
+    const tournamentData:{seeding: User[], name:string, selectedSort: 'name' | 'age' | 'rating'} = await request.json();
+    
     const tournamentId = db.data.tournaments.length > 0 ? db.data.tournaments[db.data.tournaments.length - 1].id + 1 : 1;
+    const sortedPlayers = sortPlayers(tournamentData.selectedSort, tournamentData.seeding);
+    
+    const bracketSize = getBracketSize(tournamentData.seeding.length)
+    const seedingOrder = tournamentData.seeding.length == bracketSize ? 'natural' : 'inner_outer';
+
     const stage = await manager.create.stage({
         name: tournamentData.name,
         tournamentId: tournamentId,
         type: 'single_elimination',
-        seeding: tournamentData.seeding.map(user => user.name),
+        seeding: sortedPlayers.map(user => user.name),
         settings:{
-            size:getBracketSize(tournamentData.seeding.length),
+            seedOrdering: [seedingOrder],
+            size:bracketSize,
         } 
     });
     

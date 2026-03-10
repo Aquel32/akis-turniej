@@ -16,16 +16,16 @@
 
     let selectedPlayer = $state(undefined as User|undefined);
 
-    async function addPlayer(name:string,country:string,age:number,registrationDate:string)
+    async function addPlayer(name:string,country:string,age:number,registrationDate:string,rating:number)
     {
         editor.enabled = false;
-        console.log(name,country,age,registrationDate);
+        console.log(name,country,age,registrationDate,rating);
 
         if(selectedPlayer != undefined)
         {
-            const response = await fetch('/api/editUser', {
-                method: 'POST',
-                body: JSON.stringify({ id:selectedPlayer.id, name, country, age, registrationDate:selectedPlayer.registrationDate }),
+                const response = await fetch('/api/editUser', {
+                            method: 'POST',
+                        body: JSON.stringify({ id:selectedPlayer.id, name, country, age, registrationDate:selectedPlayer.registrationDate, rating }),
                 headers: {
                     'content-type': 'application/json'
                 }
@@ -36,7 +36,7 @@
 
         const response = await fetch('/api/addUser', {
 			method: 'POST',
-			body: JSON.stringify({ name, country, age, registrationDate }),
+			body: JSON.stringify({ name, country, age, registrationDate, rating }),
 			headers: {
 				'content-type': 'application/json'
 			}
@@ -94,6 +94,10 @@
                     <div class="p-2 bg-red-100 flex flex-col gap-2 items-center">
                         <h1 class="px-10 py-2 bg-gray-300">Registration Date</h1>
                         <h1>{player.registrationDate}</h1>
+                    </div>
+                    <div class="p-2 bg-red-100 flex flex-col gap-2 items-center">
+                        <h1 class="px-10 py-2 bg-gray-300">Rating</h1>
+                        <h1>{player.rating}</h1>
                     </div>
                 </div>
 			</li>

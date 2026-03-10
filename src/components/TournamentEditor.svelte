@@ -6,10 +6,11 @@
     
     let name = $state("");
     let participants = $state<User[]>([]);
+    let selectedSort = $state('rating');
 
     function end()
     {
-        submit(participants, name);
+        submit(participants, name, selectedSort);
     }
 
     function toggleParticipant(player:User)
@@ -40,6 +41,16 @@
                     <label class="flex justify-between items-center">{player.name}<input class="p-2 mx-2" type="checkbox" onclick={()=>toggleParticipant(player)}></label>
                 {/each}
             </div>
+
+            <label class="flex justify-between items-center">
+                Sort participants
+                <select class="p-2 mx-2 border-0" bind:value={selectedSort}>
+                    <option value="name">by name</option>
+                    <option value="age">by age</option>
+                    <option value="rating">by rating</option>
+                </select>
+            </label>
+
             <button onclick={end} class="bg-gray-300 px-10 py-2 mb-5">Submit</button>
     </div>
 </div>

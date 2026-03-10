@@ -4,4 +4,5 @@ export type User = {
     age: number
     country: string
     registrationDate: string
+    rating: number
 }

@@ -6,18 +6,19 @@
     let playerName = $state("");
     let country = $state("");
     let age = $state(18);
-
+    let rating = $state(1000);
     $effect(() => {
         playerName = player?.name ?? "";
         country = player?.country ?? "";
         age = player?.age ?? 18;
+        rating = player?.rating ?? 1000;
     });
 
     function end()
     {
         const date = new Date();
         const registrationDate = `${String(date.getDate()).padStart(2,"0")}.${String(date.getMonth() + 1).padStart(2,"0")}.${date.getFullYear()} ${String(date.getHours()).padStart(2,"0")}:${String(date.getMinutes()).padStart(2,"0")}`;
-        submit(playerName,country,age,registrationDate)
+        submit(playerName,country,age,registrationDate,rating)
     }
 </script>
 
@@ -32,6 +33,7 @@
                 <label class="flex justify-between items-center">Name<input class="p-2 mx-2" type="text" placeholder="Jan Kowalski" bind:value={playerName}></label>
                 <label class="flex justify-between items-center">Country<input class="p-2 mx-2" type="text" placeholder="Poland" bind:value={country}></label>
                 <label class="flex justify-between items-center">Age<input class="p-2 mx-2" type="number" placeholder="18" bind:value={age}></label>
+                <label class="flex justify-between items-center">Rating<input class="p-2 mx-2" type="number" placeholder="1000" bind:value={rating}></label>
             </div>
             <button onclick={end} class="bg-gray-300 px-10 py-2 mb-5">Submit</button>
     </div>

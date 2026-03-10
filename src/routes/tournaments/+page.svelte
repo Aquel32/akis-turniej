@@ -18,7 +18,7 @@
             enabled:false
         })
     
-    function addTournament(participants:User[], name:string)
+    function addTournament(participants:User[], name:string, selectedSort:string)
     {
         selectedTournament = null;
         editor.enabled = false;
@@ -30,7 +30,8 @@
             },
             body: JSON.stringify({
                 seeding: participants,
-                name: name
+                name: name,
+                selectedSort: selectedSort
             })
         }).then(() => {
             location.reload();

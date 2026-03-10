@@ -2,6 +2,7 @@
     import 'brackets-viewer/dist/brackets-viewer.min.css';
     import type { MatchWithMetadata } from 'brackets-viewer';
 	import MatchEditor from './MatchEditor.svelte';
+	import { query } from '$app/server';
 
     let { tournamentData } = $props();
     let selectedMatch= $state<MatchWithMetadata | null>(null)
@@ -14,12 +15,15 @@
     });
 
     async function loadAndRender() {
-        (window as any).bracketsViewer.render({
+        await (window as any).bracketsViewer.render({
             stages: tournamentData.stage,
             matches: tournamentData.match,
             matchGames: tournamentData.match_game,
             participants: tournamentData.participant,
         }, {
+            customReplacements: {
+                'BYE': 'Wolny Los',
+            },
             onMatchClick: (match: MatchWithMetadata) => {
                 if(match.opponent1!.id === null || match.opponent2!.id === null) {
                     return;
@@ -31,6 +35,9 @@
                 selectedMatch = match;
             },
         });
+        document.querySelectorAll("div.name.bye").forEach(el => {
+            el.textContent = "EMPTY";
+        })
     }
 
     function submit(op1Score:number, op2Score:number)
