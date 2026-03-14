@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { User } from "$lib/types";
+	import type { User } from "$lib/typeormEntities";
 	import { X } from "@lucide/svelte";
 
     let { enabled, players, selectedTournament, close, submit } = $props();
@@ -7,17 +7,38 @@
     let name = $state("");
     let participants = $state<User[]>([]);
     let selectedSort = $state('rating');
+    let submitting = $state(false);
 
-    function end()
+    $effect(() => {
+        if (enabled) {
+            return;
+        }
+
+        name = "";
+        participants = [];
+        selectedSort = 'rating';
+        submitting = false;
+    });
+
+    async function end()
     {
-        submit(participants, name, selectedSort);
+        if (submitting) {
+            return;
+        }
+
+        submitting = true;
+        try {
+            await submit(participants, name, selectedSort);
+        } finally {
+            submitting = false;
+        }
     }
 
     function toggleParticipant(player:User)
     {
-        if(participants.includes(player))
+        if(participants.some((participant) => participant.id === player.id))
         {
-            participants = participants.filter(p => p !== player);
+            participants = participants.filter((participant) => participant.id !== player.id);
         }
         else
         {
@@ -38,7 +59,7 @@
                 <label class="flex justify-between items-center">Name<input class="p-2 mx-2" type="text" placeholder="New tournament" bind:value={name}></label>
             
                 {#each players as player}
-                    <label class="flex justify-between items-center">{player.name}<input class="p-2 mx-2" type="checkbox" onclick={()=>toggleParticipant(player)}></label>
+                    <label class="flex justify-between items-center">{player.name}<input class="p-2 mx-2" type="checkbox" checked={participants.some((participant) => participant.id === player.id)} onclick={()=>toggleParticipant(player)}></label>
                 {/each}
             </div>
 
@@ -51,7 +72,7 @@
                 </select>
             </label>
 
-            <button onclick={end} class="bg-gray-300 px-10 py-2 mb-5">Submit</button>
+            <button onclick={end} class="bg-gray-300 px-10 py-2 mb-5" disabled={submitting}>{submitting ? 'Submitting...' : 'Submit'}</button>
     </div>
 </div>
 {/if}

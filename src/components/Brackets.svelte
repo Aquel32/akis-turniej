@@ -2,7 +2,7 @@
     import 'brackets-viewer/dist/brackets-viewer.min.css';
     import type { MatchWithMetadata } from 'brackets-viewer';
 	import MatchEditor from './MatchEditor.svelte';
-	import { query } from '$app/server';
+    import { invalidateAll } from '$app/navigation';
 
     let { tournamentData } = $props();
     let selectedMatch= $state<MatchWithMetadata | null>(null)
@@ -21,10 +21,8 @@
             matchGames: tournamentData.match_game,
             participants: tournamentData.participant,
         }, {
-            customReplacements: {
-                'BYE': 'Wolny Los',
-            },
             onMatchClick: (match: MatchWithMetadata) => {
+                console.log("clicked", match)
                 if(match.opponent1!.id === null || match.opponent2!.id === null) {
                     return;
                 }
@@ -40,9 +38,9 @@
         })
     }
 
-    function submit(op1Score:number, op2Score:number)
+    async function submit(op1Score:number, op2Score:number)
     {
-        fetch("/api/updateTournament",{
+        await fetch('/api/updateTournament', {
             method:"POST",
             headers: {
                 "Content-Type": "application/json"
@@ -54,10 +52,25 @@
             })
         }).then(() => {
             location.reload();
-        })
-        selectedMatch = null;
+        });
+
+        // await invalidateAll();
+        // selectedMatch = null;
     }
 </script>
+
+<style>
+    :global(.match) {
+        cursor: pointer !important;
+        pointer-events: auto !important;
+    }
+
+    .brackets-viewer {
+        height: auto;
+        min-height: 400px;
+        pointer-events: auto !important;
+    }
+</style>
 
 <div class="brackets-viewer"></div>
 

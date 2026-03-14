@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { User } from '$lib/types.js';
+	import type { User } from '$lib/typeormEntities.js';
 	import Modal from '../../components/Modal.svelte';
     import PlayerEditor from '../../components/PlayerEditor.svelte';
      import { Trash, Pencil,CirclePlus } from '@lucide/svelte';
@@ -29,8 +29,11 @@
                 headers: {
                     'content-type': 'application/json'
                 }
-		    });
-            selectedPlayer = undefined;
+		    })
+            .then(() => {
+                selectedPlayer = undefined;
+                location.reload();
+            });
             return;
         }
 
@@ -40,8 +43,10 @@
 			headers: {
 				'content-type': 'application/json'
 			}
-		});
-        selectedPlayer = undefined;
+		}).then(() => {
+            selectedPlayer = undefined;
+            location.reload();
+        });
     }
 
     function deletePlayer()
@@ -55,8 +60,10 @@
                 headers: {
                     'content-type': 'application/json'
                 }
+            }).then(() => {
+                selectedPlayer = undefined;
+                location.reload();
             });
-            selectedPlayer = undefined;
         }
     }
 

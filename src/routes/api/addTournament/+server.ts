@@ -1,7 +1,6 @@
-import { error } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
-import db from '$lib/db';
-import type { User } from '$lib/types';
+import { getDataSource } from '$lib/dataSource';
+import { Tournament, User } from '$lib/typeormEntities';
 import { manager } from '$lib/brackets';
 
 function getBracketSize(n: number): number {
@@ -28,31 +27,44 @@ function sortPlayers(criteria: 'name' | 'age' | 'rating', players: User[]): User
 
 export const POST: RequestHandler = async ({ request }) => {
     const tournamentData:{seeding: User[], name:string, selectedSort: 'name' | 'age' | 'rating'} = await request.json();
-    
-    const tournamentId = db.data.tournaments.length > 0 ? db.data.tournaments[db.data.tournaments.length - 1].id + 1 : 1;
-    const sortedPlayers = sortPlayers(tournamentData.selectedSort, tournamentData.seeding);
-    
-    const bracketSize = getBracketSize(tournamentData.seeding.length)
-    const seedingOrder = tournamentData.seeding.length == bracketSize ? 'natural' : 'inner_outer';
 
-    const stage = await manager.create.stage({
+    // tworzymy mape uzytkownikow aby pozbyc sie duplaktów
+    const uniqueUsers = Array.from(new Map(tournamentData.seeding.map((user) => [user.id, user])).values());
+
+    const dataSource = await getDataSource();
+    const tournamentRepository = dataSource.getRepository(Tournament);
+
+    const existingTournaments = await tournamentRepository.find();
+    const existingIds = existingTournaments.map((tournament) => tournament.id);
+    const tournamentId = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1;
+
+    const sortedPlayers = sortPlayers(tournamentData.selectedSort, uniqueUsers);
+    const participantIds: number[] = [];
+    for (const player of sortedPlayers) {
+        const participantId = await manager.storage.insert('participant', {
+            tournament_id: tournamentId,
+            name: player.name,
+        });
+        participantIds.push(participantId);
+    }
+
+    const bracketSize = getBracketSize(sortedPlayers.length)
+    const seedingOrder = sortedPlayers.length == bracketSize ? 'natural' : 'inner_outer';
+    await manager.create.stage({
         name: tournamentData.name,
         tournamentId: tournamentId,
         type: 'single_elimination',
-        seeding: sortedPlayers.map(user => user.name),
+        seedingIds: participantIds,
         settings:{
             seedOrdering: [seedingOrder],
             size:bracketSize,
         } 
     });
-    
 
-    db.data.tournaments.push({
+    await tournamentRepository.save({
         id: tournamentId,
         name: tournamentData.name,
-        participants: tournamentData.seeding.map(user => user.id)
     });
-    await db.write();
 
 	return new Response(JSON.stringify({ success: true, tournamentId }));
 };

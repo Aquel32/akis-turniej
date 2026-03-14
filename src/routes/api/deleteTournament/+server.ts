@@ -1,30 +1,23 @@
-import { error } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
-import db from '$lib/db';
-import type { User } from '$lib/types';
+import { getDataSource } from '$lib/dataSource';
+import { Tournament } from '$lib/typeormEntities';
 import { manager } from '$lib/brackets';
 
 export const POST: RequestHandler = async ({ request }) => {
     const tournamentData:{name:string} = await request.json();
 
-    const tournamentIndex = db.data.tournaments.findIndex(t => t.name === tournamentData.name);
-    if(tournamentIndex === -1) {
+    const dataSource = await getDataSource();
+    const repository = dataSource.getRepository(Tournament);
+    const tournament = await repository.findOne({ where: { name: tournamentData.name } });
+
+    if(!tournament) {
         return new Response(JSON.stringify({ success: false, message: 'Tournament not found' }), { status: 404 });
     }
-    const tournamentId = db.data.tournaments.find(t => t.name === tournamentData.name).id;
+    const tournamentId = tournament.id;
 
-    console.log(tournamentId);
-
-    db.data.tournaments.splice(tournamentIndex, 1);
-    await db.write();
-
-    const st = await manager.get.currentStage(tournamentId);
-    console.log(st)
-    if(st)
-    {
-        manager.delete.stage(st.id);
-    }
-    manager.delete.tournament(tournamentId);
+    await repository.delete({ id: tournamentId });
+    await manager.delete.tournament(tournamentId);
+    await manager.storage.delete('participant', { tournament_id: tournamentId });
 
 	return new Response();
 };

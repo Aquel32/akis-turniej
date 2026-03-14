@@ -3,10 +3,18 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
-    // params.id - tournament id
+    const tournamentId = Number(params.id);
 
-    const currentStage = await manager.get.currentStage(Number(params.id));
-    const tournamentData = await manager.get.tournamentData(Number(params.id));
-    
-    return { tournamentData, currentStage };
+    try {
+        const currentStage = await manager.get.currentStage(tournamentId);
+        const tournamentData = await manager.get.tournamentData(tournamentId);
+
+        return {
+            tournamentData: JSON.parse(JSON.stringify(tournamentData)),
+            currentStage: currentStage ? JSON.parse(JSON.stringify(currentStage)) : null
+        };
+    } catch (e) {
+        console.error(e);
+        throw error(404, 'Tournament not found');
+    }
 };

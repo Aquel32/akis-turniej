@@ -1,14 +1,15 @@
 <script lang="ts">
-	import type { User } from '$lib/types.js';
 	import Modal from '../../components/Modal.svelte';
     import PlayerEditor from '../../components/PlayerEditor.svelte';
      import { Trash, Pencil,CirclePlus, Play } from '@lucide/svelte';
 	import TournamentEditor from '../../components/TournamentEditor.svelte';
+	import type { User } from '$lib/typeormEntities.js';
 
     let { data } = $props();
     let tournaments = $derived(data.tournaments);
 
     let selectedTournament = $state<any | null>(null);
+    let isCreatingTournament = $state(false);
 
     let editor = $state({
         enabled:false
@@ -18,24 +19,32 @@
             enabled:false
         })
     
-    function addTournament(participants:User[], name:string, selectedSort:string)
+    async function addTournament(participants:User[], name:string, selectedSort:string)
     {
+        if (isCreatingTournament) {
+            return;
+        }
+
+        isCreatingTournament = true;
         selectedTournament = null;
         editor.enabled = false;
 
-        fetch("/api/addTournament",{
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                seeding: participants,
-                name: name,
-                selectedSort: selectedSort
-            })
-        }).then(() => {
+        try {
+            await fetch('/api/addTournament', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    seeding: participants,
+                    name: name,
+                    selectedSort: selectedSort
+                })
+            });
             location.reload();
-        })
+        } finally {
+            isCreatingTournament = false;
+        }
     }
 
     function playTournament(tournament:any)

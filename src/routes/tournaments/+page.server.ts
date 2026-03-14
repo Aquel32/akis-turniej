@@ -1,12 +1,14 @@
-import { manager } from '$lib/brackets';
-import db from '$lib/db';
-import type { User } from '$lib/types';
+import { getDataSource } from '$lib/dataSource';
+import { Tournament, User } from '$lib/typeormEntities';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
+    const dataSource = await getDataSource();
+    const tournamentRepository = dataSource.getRepository(Tournament);
+    const userRepository = dataSource.getRepository(User);
 
     return {
-        tournaments: db.data.tournaments,
-        players: db.data.users
+		tournaments: JSON.parse(JSON.stringify(await tournamentRepository.find())),
+		players: JSON.parse(JSON.stringify(await userRepository.find()))
 	};
 };
